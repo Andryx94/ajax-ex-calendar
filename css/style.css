@@ -1,0 +1,21 @@
+/* Generali */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+ul{
+  padding: 0;
+}
+
+.month {
+  display: none;
+}
+
+.month.active {
+  display: block;
+}
+
+.prev, .next {
+  cursor: pointer;
+}
+/* fine generali */
