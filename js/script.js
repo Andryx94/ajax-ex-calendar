@@ -17,30 +17,50 @@ $(document).ready(
 
 //FUNZIONE generazione mesi
 function generazioneMesi() {
-  //clono template Handlebars
-  var source = $("#entry-template").html();
-  var template = Handlebars.compile(source);
-
-  //scorro le mensilità
+  //scorro le mensilità, generandole
   for (var i = 0; i < 12; i++){
     var meseAttuale = moment("2018").add(i, "M").format("MMMM");
+    $("#template .month h4").text(meseAttuale + " 2018")
     var giorniMese = moment("2018").add(i, "M").daysInMonth();
-    var arraygiorniMese = [];
 
-    //scorro giorni mensilità
+    //scorro giorni mensilità, generandoli
+    $("#template .month .days ul").text("");
     for (var j = 0; j < giorniMese; j++){
-      arraygiorniMese.push((j + 1) + " " + meseAttuale)
+      $("#template .month .days ul").append("<li>" + (j + 1) + " " + meseAttuale)
     }
 
-    //inserisco giorni e mese attuale nell'oggetto Handlebars
-    var context = {
-      mese: meseAttuale,
-      giorni: arraygiorniMese
-    };
+    //clono il template, rimuovo la classe hidden e lo appendo nel container
+    var template = $("#template .month").clone();
+    template.removeClass("hidden")
+    $(".container").append(template)
 
-    //appendo il template Handlebars
-    var html = template(context);
-    $(".container").append(html)
+    //chiamata ajax per le festività
+    $.ajax(
+      {
+        url: "https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=" + i + "",
+        method: "GET",
+        success: function (data) {
+          for (var y = 0; y <data.response.length; y++){
+            var nomeFesta = data.response[y].name;
+            var giornoFesta = data.response[y].date;
+            var dataFesta = moment(giornoFesta).format("D MMMM")
+
+            $(".container li").each(function(){
+              if ($(this).text() == dataFesta) {
+                $(this).addClass("rosso")
+                $(this).append(" - " + nomeFesta)
+              }
+            })
+
+
+          }
+        },
+
+        error: function () {
+          alert("E' avvenuto un errore. ");
+        }
+      }
+    );
   }
 
   //inizializzo classi mensilità e bottoni
@@ -48,6 +68,8 @@ function generazioneMesi() {
   $(".month:first-child .prev").remove();
   $(".month:last-child").addClass('last');
   $(".month:last-child .next").remove();
+
+
 }
 
 //FUNZIONE calendario indietro
@@ -72,7 +94,6 @@ for (var z = 0; z < 12; z++) {
       method: "GET",
       success: function (data) {
         feste = data.response
-        console.log(feste)
       },
 
       error: function () {

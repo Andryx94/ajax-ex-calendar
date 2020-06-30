@@ -7,6 +7,14 @@ ul{
   padding: 0;
 }
 
+li{
+  list-style-type: none;
+}
+
+button{
+  margin-bottom: 10px;
+}
+
 .month {
   display: none;
 }
@@ -17,5 +25,8 @@ ul{
 
 .prev, .next {
   cursor: pointer;
+}
+.rosso {
+  color: red;
 }
 /* fine generali */
