@@ -4,11 +4,22 @@ body {
 }
 
 ul{
+  display: flex;
+  flex-wrap: wrap;
   padding: 0;
 }
 
 li{
   list-style-type: none;
+  width: 80px;
+  height: 80px;
+  border: 1px solid black;
+  margin-right: 1px;
+  margin-bottom: 1px;
+}
+
+h4{
+  font-weight: 600;
 }
 
 button{
@@ -26,6 +37,7 @@ button{
 .prev, .next {
   cursor: pointer;
 }
+
 .rosso {
   color: red;
 }

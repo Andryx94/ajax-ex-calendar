@@ -20,21 +20,21 @@ function generazioneMesi() {
   //scorro le mensilità, generandole
   for (var i = 0; i < 12; i++){
     var meseAttuale = moment("2018").add(i, "M").format("MMMM");
-    $("#template .month h4").text(meseAttuale + " 2018")
+    $("#template .month h4").text(meseAttuale + " 2018");
     var giorniMese = moment("2018").add(i, "M").daysInMonth();
 
     //scorro giorni mensilità, generandoli
     $("#template .month .days ul").text("");
     for (var j = 0; j < giorniMese; j++){
-      $("#template .month .days ul").append("<li>" + (j + 1) + " " + meseAttuale)
+      $("#template .month .days ul").append("<li>" + (j + 1) + " " + meseAttuale);
     }
 
     //clono il template, rimuovo la classe hidden e lo appendo nel container
     var template = $("#template .month").clone();
-    template.removeClass("hidden")
-    $(".container").append(template)
+    template.removeClass("hidden");
+    $(".container").append(template);
 
-    //chiamata ajax per le festività
+    //chiamata ajax per le festività e le aggiungo ai giorni correlati, evidenziandoli
     $.ajax(
       {
         url: "https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=" + i + "",
@@ -43,16 +43,14 @@ function generazioneMesi() {
           for (var y = 0; y <data.response.length; y++){
             var nomeFesta = data.response[y].name;
             var giornoFesta = data.response[y].date;
-            var dataFesta = moment(giornoFesta).format("D MMMM")
+            var dataFesta = moment(giornoFesta).format("D MMMM");
 
             $(".container li").each(function(){
               if ($(this).text() == dataFesta) {
-                $(this).addClass("rosso")
-                $(this).append(" - " + nomeFesta)
+                $(this).addClass("rosso");
+                $(this).append(" " + nomeFesta);
               }
-            })
-
-
+            });
           }
         },
 
@@ -68,8 +66,6 @@ function generazioneMesi() {
   $(".month:first-child .prev").remove();
   $(".month:last-child").addClass('last');
   $(".month:last-child .next").remove();
-
-
 }
 
 //FUNZIONE calendario indietro
@@ -85,20 +81,3 @@ function calendarioAvanti() {
   meseCorrente.removeClass("active");
   meseCorrente.next().addClass("active");
 };
-
-//chiamata ajax festività
-for (var z = 0; z < 12; z++) {
-  $.ajax(
-    {
-      url: "https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=" + z + "",
-      method: "GET",
-      success: function (data) {
-        feste = data.response
-      },
-
-      error: function () {
-        alert("E' avvenuto un errore. ");
-      }
-    }
-  );
-}
