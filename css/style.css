@@ -1,6 +1,7 @@
 /* Generali */
 body {
   font-family: 'Roboto', sans-serif;
+  font-size: 13px;
 }
 
 ul{
@@ -20,6 +21,7 @@ li{
 
 h4{
   font-weight: 600;
+  text-transform: capitalize;
 }
 
 button{

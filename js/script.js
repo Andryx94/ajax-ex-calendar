@@ -1,5 +1,6 @@
 $(document).ready(
   function() {
+    moment.locale('it');
     //avvio funzione generazione mensilità
     generazioneMesi();
 
